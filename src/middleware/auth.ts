@@ -2,9 +2,10 @@ import type { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../module/utility/sendResponse";
 import jwt, { type JwtPayload } from 'jsonwebtoken'
 import config from "../config";
-import { pool } from "../db";
+import execute from "../reusable_function/execute";
 
 const auth = () => {
+
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
 
@@ -20,7 +21,7 @@ const auth = () => {
                 sendResponse(res, { status_code: 401, success: false, message: 'Invalid token' })
             }
 
-            const result = await pool.query(`
+            const result = await execute(`
                 SELECT * FROM users
                 WHERE id=$1
             `, [verifiedUser.id])

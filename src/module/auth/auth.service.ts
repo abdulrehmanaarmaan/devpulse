@@ -1,5 +1,5 @@
 import config from "../../config";
-import { pool } from "../../db";
+import execute from "../../reusable_function/execute";
 import type { User, UserToVerify } from "./auth.interface";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -11,7 +11,7 @@ const addUserToDB = async (user: User) => {
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        const result = await pool.query(`
+        const result = await execute(`
         INSERT INTO users(name, email, password, role)
         VALUES($1, $2, $3, COALESCE($4, 'contributor'))
         RETURNING *`,
@@ -32,7 +32,7 @@ const verifyUserInDB = async (userToVerify: UserToVerify) => {
 
     const { email, password } = userToVerify
 
-    const result = await pool.query(`
+    const result = await execute(`
         SELECT * FROM users
         WHERE email=$1
         `, [email])

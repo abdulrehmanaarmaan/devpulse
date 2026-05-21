@@ -1,4 +1,4 @@
-import { pool } from "../../db"
+import execute from "../../reusable_function/execute"
 import type { FieldsToUpdate, Issue, Reporter } from "./issue.interface"
 
 const addIssueToDB = async (issue: Issue, reporterId: number) => {
@@ -7,7 +7,7 @@ const addIssueToDB = async (issue: Issue, reporterId: number) => {
 
         const { title, description, type, reporter_id } = issue
 
-        const result = await pool.query(`
+        const result = await execute(`
             INSERT INTO issues(title, description, type, reporter_id)
             VALUES($1, $2, $3, COALESCE($4, ${reporterId}))
             RETURNING *`,
@@ -53,13 +53,13 @@ const getIssuesFromDB = async (type: string, status: string, sort: string) => {
             sql += ` ORDER BY created_at DESC`
         }
 
-        const result = await pool.query(sql, values)
+        const result = await execute(sql, values)
 
         const issues = result.rows
 
         const reporterIds = issues.map(issue => issue.reporter_id)
 
-        const users = await pool.query(`
+        const users = await execute(`
             SELECT id, name, role FROM users
             WHERE id = ANY($1)
             `, [reporterIds])
@@ -78,7 +78,7 @@ const getIssuesFromDB = async (type: string, status: string, sort: string) => {
 const getIssueFromDB = async (id: string) => {
 
     try {
-        const result = await pool.query(`
+        const result = await execute(`
             SELECT * FROM issues
             WHERE id = $1
         `,
@@ -86,7 +86,7 @@ const getIssueFromDB = async (id: string) => {
 
         const issue = result.rows[0]
 
-        const users = await pool.query(`
+        const users = await execute(`
             SELECT id, name, role FROM users
             WHERE id = $1
         `, [issue.reporter_id])
@@ -110,7 +110,7 @@ const updateIssueInDB = async (fieldsToUpdate: FieldsToUpdate, id: string) => {
     try {
         const { title, description, type } = fieldsToUpdate
 
-        const result = await pool.query(`
+        const result = await execute(`
             UPDATE issues
             SET title=COALESCE($1, title),
             description=COALESCE($2, description),
@@ -129,7 +129,7 @@ const updateIssueInDB = async (fieldsToUpdate: FieldsToUpdate, id: string) => {
 const deleteIssueFromDB = async (id: string) => {
 
     try {
-        const result = await pool.query(`
+        const result = await execute(`
             DELETE FROM issues
             WHERE id=$1
             RETURNING *

@@ -1,5 +1,6 @@
 import { Pool } from 'pg'
 import config from '../config'
+import execute from '../reusable_function/execute'
 
 export const pool = new Pool({
     connectionString: config.connection_string,
@@ -8,7 +9,7 @@ export const pool = new Pool({
 export const initDB = async () => {
 
     try {
-        await pool.query(`
+        await execute(`
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             name TEXT NOT NULL,
@@ -19,7 +20,7 @@ export const initDB = async () => {
             updated_at TIMESTAMP DEFAULT NOW())
             `)
 
-        await pool.query(`
+        await execute(`
         CREATE TABLE IF NOT EXISTS issues(
         id SERIAL PRIMARY KEY,
         title VARCHAR(150) NOT NULL,

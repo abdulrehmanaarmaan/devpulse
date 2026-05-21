@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express"
-import { pool } from "../db"
 import { sendResponse } from "../module/utility/sendResponse"
+import execute from "../reusable_function/execute"
 
 const checkRoleForUpdate = () => {
 
@@ -12,7 +12,7 @@ const checkRoleForUpdate = () => {
                 return sendResponse(res, { status_code: 401, success: false, message: 'Unauthorized access' })
             }
 
-            const { role, id: requestorId } = req.user
+            const { role, id: requesterId } = req.user
 
             if (role === 'maintainer') {
                 return next()
@@ -20,7 +20,7 @@ const checkRoleForUpdate = () => {
 
             const { id } = req.params
 
-            const result = await pool.query(`
+            const result = await execute(`
                     SELECT reporter_id, status FROM issues
                     WHERE id=$1
                 `, [id])
@@ -33,7 +33,7 @@ const checkRoleForUpdate = () => {
 
             const { reporter_id, status } = issue
 
-            if (requestorId !== reporter_id) {
+            if (requesterId !== reporter_id) {
                 return sendResponse(res, { status_code: 403, success: false, message: 'Forbidden access' })
             }
 

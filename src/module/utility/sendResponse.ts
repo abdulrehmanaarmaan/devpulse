@@ -6,3 +6,5 @@ export const sendResponse = <X, Y>(res: Response, resInfo: ResponseInfo<X, Y>) =
     const { status_code, success, message, data, errors } = resInfo
     res.status(status_code).send({ success, message, data, errors })
 }
+
+export default sendResponse
