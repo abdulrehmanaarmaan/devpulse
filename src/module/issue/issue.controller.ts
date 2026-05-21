@@ -20,11 +20,11 @@ const addIssue = async (req: Request, res: Response) => {
 const getIssues = async (req: Request, res: Response) => {
 
     try {
-        const { type, status } = req.query
-        const result = await getIssuesFromDB(type as string, status as string)
+        const { type, status, sort } = req.query
+        const result = await getIssuesFromDB(type as string, status as string, sort as string)
 
         if (!result.length) {
-            sendResponse(res, { status_code: 404, success: false, message: 'No issue matched the searches or filters' })
+            sendResponse(res, { status_code: 404, success: false, message: 'No issue added' })
         }
         sendResponse(res, { status_code: 200, success: true, data: result })
     }

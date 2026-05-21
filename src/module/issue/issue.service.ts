@@ -22,7 +22,7 @@ const addIssueToDB = async (issue: Issue, reporterId: number) => {
     }
 }
 
-const getIssuesFromDB = async (type: string, status: string) => {
+const getIssuesFromDB = async (type: string, status: string, sort: string) => {
 
     try {
         let sql = `
@@ -44,6 +44,13 @@ const getIssuesFromDB = async (type: string, status: string) => {
             sql += ` AND status=$${index}`
             values.push(status)
             index++
+        }
+
+        if (sort === 'oldest') {
+            sql += ` ORDER BY created_at ASC`
+        }
+        else {
+            sql += ` ORDER BY created_at DESC`
         }
 
         const result = await pool.query(sql, values)
