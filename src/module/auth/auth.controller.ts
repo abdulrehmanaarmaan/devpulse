@@ -11,7 +11,7 @@ const addUser = async (req: Request, res: Response) => {
         sendResponse(res, { status_code: 201, success: true, message: 'User registered successfully', data: result })
     }
     catch (error: any) {
-        sendResponse(res, { status_code: 500, success: false, error: error.message })
+        sendResponse(res, { status_code: 500, success: false, message: error.message, errors: error })
     }
 }
 
@@ -22,7 +22,7 @@ const verifyUser = async (req: Request, res: Response) => {
         sendResponse(res, { status_code: 200, success: true, message: 'Login successful', data: result })
     }
     catch (error: any) {
-        sendResponse(res, { status_code: 500, success: false, error: error.message })
+        sendResponse(res, { status_code: 500, success: false, message: error.message, errors: error })
     }
 }
 

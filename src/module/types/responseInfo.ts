@@ -3,5 +3,5 @@ export interface ResponseInfo<X, Y> {
     success: boolean,
     message?: string,
     data?: X,
-    error?: Y
+    errors?: Y
 }
