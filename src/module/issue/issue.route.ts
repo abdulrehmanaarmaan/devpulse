@@ -1,8 +1,8 @@
 import { Router } from "express";
 import auth from "../../middleware/auth";
 import { issueController } from "./issue.controller";
-import checkRoleForUpdate from "../../middleware/checkRoleForUpdate";
-import checkRoleForDelete from "../../middleware/checkRoleForDelete";
+import updateIssueAuthorizer from "../../middleware/updateIssueAuthorizer";
+import deleteIssueAuthorizer from "../../middleware/deleteIssueAuthorizer";
 
 const router = Router()
 
@@ -14,8 +14,8 @@ router.get('/', getIssues)
 
 router.get('/:id', getIssue)
 
-router.patch('/:id', auth(), checkRoleForUpdate(), updateIssue)
+router.patch('/:id', auth(), updateIssueAuthorizer(), updateIssue)
 
-router.delete('/:id', auth(), checkRoleForDelete(), deleteIssue)
+router.delete('/:id', auth(), deleteIssueAuthorizer(), deleteIssue)
 
 export const issueRouter = router

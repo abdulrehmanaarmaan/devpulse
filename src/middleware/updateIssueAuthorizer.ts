@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express"
 import { sendResponse } from "../module/utility/sendResponse"
 import execute from "../reusable_function/execute"
 
-const checkRoleForUpdate = () => {
+const updateIssueAuthorizer = () => {
 
     return async (req: Request, res: Response, next: NextFunction) => {
 
@@ -49,4 +49,4 @@ const checkRoleForUpdate = () => {
     }
 }
 
-export default checkRoleForUpdate
+export default updateIssueAuthorizer

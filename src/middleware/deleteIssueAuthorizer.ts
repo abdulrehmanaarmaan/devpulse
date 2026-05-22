@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express"
 import { sendResponse } from "../module/utility/sendResponse"
 
-const checkRoleForDelete = () => {
+const deleteIssueAuthorizer = () => {
 
     return async (req: Request, res: Response, next: NextFunction) => {
 
@@ -19,4 +19,4 @@ const checkRoleForDelete = () => {
     }
 }
 
-export default checkRoleForDelete
+export default deleteIssueAuthorizer
