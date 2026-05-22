@@ -61,6 +61,7 @@ const updateIssue = async (req: Request, res: Response) => {
 
     try {
         const { id } = req.params
+
         const result = await updateIssueInDB(req.body, id as string)
 
         if (!result) {

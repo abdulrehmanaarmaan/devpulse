@@ -101,7 +101,7 @@ const getIssueFromDB = async (id: string) => {
         return finalData
     }
     catch (error: any) {
-        throw new Error(error)
+        throw new Error('Issue not found')
     }
 }
 
