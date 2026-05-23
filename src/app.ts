@@ -13,10 +13,6 @@ app.use(cors({
 
 app.use(express.json())
 
-app.get('/', async (req: Request, res: Response) => {
-    sendResponse(res, { status_code: 200, success: true, message: 'Hello World!' })
-})
-
 app.use('/api/auth', authRouter)
 
 app.use('/api/issues', issueRouter)
