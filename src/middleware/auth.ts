@@ -17,7 +17,7 @@ const auth = () => {
 
             const verifiedUser = jwt.verify(token as string, config.jwt_secret as string) as JwtPayload
 
-            if (!verifiedUser) {
+            if (!verifiedUser?.id) {
                 sendResponse(res, { status_code: 401, success: false, message: 'Invalid token' })
             }
 

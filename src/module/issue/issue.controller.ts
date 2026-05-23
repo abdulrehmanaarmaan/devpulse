@@ -34,7 +34,7 @@ const getIssues = async (req: Request, res: Response) => {
             return sendResponse(res, { status_code: 404, success: false, message: 'No issue matched' })
         }
 
-        sendResponse(res, { status_code: 200, success: true, data: result })
+        sendResponse(res, { status_code: 200, success: true, message: 'Issues retrieved successfully', data: result })
     }
     catch (error: any) {
         sendResponse(res, { status_code: 500, success: false, message: error.message, errors: error })
@@ -50,7 +50,7 @@ const getIssue = async (req: Request, res: Response) => {
         if (!result) {
             return sendResponse(res, { status_code: 404, success: false, message: 'Issue not found' })
         }
-        sendResponse(res, { status_code: 200, success: true, data: result })
+        sendResponse(res, { status_code: 200, success: true, message: 'Issue retrieved successfully', data: result })
     }
     catch (error: any) {
         sendResponse(res, { status_code: 500, success: false, message: error.message, errors: error })
